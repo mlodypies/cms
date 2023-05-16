@@ -41,7 +41,7 @@
          //$sourceFileExtension = strtolower($sourceFileExtension);
  
          //wygeneruj hash - nowa nazwe pliku
-         $newFileName = hash("sha256", $sourceFileName) . hrtime(true)
+         $newFileName = hash("sha256", $sourceFileName . hrtime(true) )
                             . ".webp";
 
         //zaczytyjemy caly obraz z folderu tymczasowego do stringa                    
