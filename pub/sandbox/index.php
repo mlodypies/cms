@@ -24,19 +24,6 @@
         //pobierz pierwotna naze plisku z tablicy 
         $sourceFileName = $_FILES['uploadedFile']['name'];
 
-        //wyciagnij pierwotne rozszerzenie pliku
-        $sourceFileExtension = pathinfo($sourceFileName, PATHINFO_EXTENSION);
-
-        //zmien litery rozszerzenia na ma
-        $sourceFileExtension = strtolower($sourceFileExtension);
-
-        //wygeneruj hash - nowa nazwe pliku
-        $newFileName = hash("sha256", $sourceFileName) . hrtime(true)
-                           . "." . $sourceFileExtension;
-
-        //wygeneruj pelny docelowy URL
-        $targetURL = $targetDir . $newFileName;
-
         //pobierz tymczasowa sciezke do pliku na serwerze 
         $tempURL = $_FILES['uploadedFile']['tmp_name'];
 
@@ -45,6 +32,27 @@
         if(!is_array($imgInfo)) {
             die("BLAD: Przekazany plik nie jest obrazem");
         }
+
+
+         //wyciagnij pierwotne rozszerzenie pliku
+         //$sourceFileExtension = pathinfo($sourceFileName, PATHINFO_EXTENSION);
+
+         //zmien litery rozszerzenia na ma
+         //$sourceFileExtension = strtolower($sourceFileExtension);
+ 
+         //wygeneruj hash - nowa nazwe pliku
+         $newFileName = hash("sha256", $sourceFileName) . hrtime(true)
+                            . ".webp";
+
+        //zaczytyjemy caly obraz z folderu tymczasowego do stringa                    
+        $imageString = file_get_contents($tempURL);
+
+        //generujemy obraz jako obiekt klasy do GDImage
+        $gdImage = imagecreatefromstring($imageString);
+        
+
+         //wygeneruj pelny docelowy URL
+         $targetURL = $targetDir . $newFileName;
 
         //zbuduj docelowy URL pliku na serwerze
 
@@ -55,7 +63,11 @@
             die("BLAD: podany plik juz istnieje");
         }
         //przesun plik do docelowej lokalizacji 
-        move_uploaded_file($tempURL, $targetURL);
+        //move_uploaded_file($tempURL, $targetURL);
+        imagewebp($gdImage, $targetURL);
+
+
+
         echo "Plik zostal poprawnie wgrany na serwer";
     }
     ?>
