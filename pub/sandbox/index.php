@@ -41,14 +41,14 @@
          //$sourceFileExtension = strtolower($sourceFileExtension);
  
          //wygeneruj hash - nowa nazwe pliku
-         $newFileName = hash("sha256", $sourceFileName . hrtime(true) )
-                            . ".webp";
+         $hash = hash("sha256", $sourceFileName . hrtime(true) );
+         $newFileName = $hash  . ".webp";
 
         //zaczytyjemy caly obraz z folderu tymczasowego do stringa                    
         $imageString = file_get_contents($tempURL);
 
         //generujemy obraz jako obiekt klasy do GDImage
-        $gdImage = imagecreatefromstring($imageString);
+        $gdImage = @imagecreatefromstring($imageString);
         
 
          //wygeneruj pelny docelowy URL
@@ -66,6 +66,12 @@
         //move_uploaded_file($tempURL, $targetURL);
         imagewebp($gdImage, $targetURL);
 
+        $db = new mysqli('localhost', 'root', '', 'cms');
+        $query = $db->prepare("INSERT INTO post VALUES(NULL, ?, ?)");
+        $dbTimestamp = date("Y-m-d H:i:s");
+        $query->bind_param("ss", $dbTimestamp, $hash);
+        if(!$query->execute())
+            die("Blad zapisu do bazy danych");
 
 
         echo "Plik zostal poprawnie wgrany na serwer";
