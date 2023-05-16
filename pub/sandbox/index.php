@@ -11,7 +11,7 @@
         <label for="uploadedFileInput">
             Wybierz plik do wgrania na serwer:
         </label>
-       <input type="file" name="uploadedFile" id="uploadedFileInput">
+       <input type="file" name="uploadedFile" id="uploadedFileInput" required>
        <input type="submit" value="Wyslij plik" name="submit">
     </form>
 
@@ -22,8 +22,20 @@
         $targetDir = "img/";
 
         //pobierz pierwotna naze plisku z tablicy 
-
         $sourceFileName = $_FILES['uploadedFile']['name'];
+
+        //wyciagnij pierwotne rozszerzenie pliku
+        $sourceFileExtension = pathinfo($sourceFileName, PATHINFO_EXTENSION);
+
+        //zmien litery rozszerzenia na ma
+        $sourceFileExtension = strtolower($sourceFileExtension);
+
+        //wygeneruj hash - nowa nazwe pliku
+        $newFileName = hash("sha256", $sourceFileName) . hrtime(true)
+                           . "." . $sourceFileExtension;
+
+        //wygeneruj pelny docelowy URL
+        $targetURL = $targetDir . $newFileName;
 
         //pobierz tymczasowa sciezke do pliku na serwerze 
         $tempURL = $_FILES['uploadedFile']['tmp_name'];
@@ -36,7 +48,9 @@
 
         //zbuduj docelowy URL pliku na serwerze
 
-        $targetURL = $targetDir . $sourceFileName;
+        //$targetURL = $targetDir . $sourceFileName;
+        //wycofane na rzecz hash
+
         if(file_exists($targetURL)) {
             die("BLAD: podany plik juz istnieje");
         }
