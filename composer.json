@@ -13,5 +13,7 @@
             "email": "simsd1234@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "steampixel/simple-php-router": "^0.7.1"
+    }
 }
