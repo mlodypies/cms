@@ -1,0 +1,17 @@
+{
+    "name": "mlodypies/cms",
+    "description": "system cms memes",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Mlodypies\\Cms\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "mlodypies",
+            "email": "simsd1234@gmail.com"
+        }
+    ],
+    "require": {}
+}
