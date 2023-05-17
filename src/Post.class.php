@@ -10,6 +10,14 @@ class Post {
         $this->filename = $f;
         $this->timestamp = $t;
     }
+
+    public function getFilename() : string {
+        return $this->filename;
+    }
+    public function getTimestamp() : string {
+        return $this->timestamp;
+    }
+
     //funkcja zwraca ostatnio dodany obrazek 
     static function getLast() : Post {
         //odwoluje sie do bazy danych
