@@ -22,3 +22,8 @@ div#post {
 div#post img {
     width: 100%;
 }
+
+div#UserLogged {
+    text-align: center;
+    font-weight: 1.5rem;
+}

@@ -1,0 +1,14 @@
+{%include 'header.html.twig' %}
+<div id="pageContainer">
+   <h1>{{ pageTitle| default("Brak tytulu podstrony") }}</h1>
+    <form action="" method="post">
+        <label for="emailInput">Podaj adres email:</label>
+        <input type="email" name="email" id="emailInput">
+        <label for="passwordInput">Podaj haslo:</label>
+        <input type="password" name="password" id="passwordInput">
+        <input type="submit" name="submit" value="Zaloguj">
+    </form>
+    
+   
+</div>
+{%include 'footer.html.twig' %}
